@@ -18,7 +18,7 @@ class TaskWriter implements TaskWriterInterface
         $taskTransfer->requireTitle()->requireStatus();
 
         try{
-            $taskTransfer = $this->entityManager->saveTask($taskTransfer);
+            $taskTransfer = $this->entityManager->createTask($taskTransfer);
 
             return (new TaskResponseTransfer())->setTaskTransfer($taskTransfer)
                 ->setIsSuccessful(true);
@@ -27,10 +27,37 @@ class TaskWriter implements TaskWriterInterface
             return (new TaskResponseTransfer())->setIsSuccessful(false)
                                                 ->addError(
                                                     (new TaskErrorTransfer())->setMessage(
-                                                        'An error occurred while saving the task'
+                                                        'An error occurred while creating the task'
                                                     )
                                                 );
         }
 
+    }
+
+    public function updateTask(TaskTransfer $taskTransfer): TaskResponseTransfer
+    {
+        try{
+            $taskTransfer = $this->entityManager->updateTask($taskTransfer);
+
+            if (!$taskTransfer) {
+                return (new TaskResponseTransfer())->setIsSuccessful(false)
+                    ->addError(
+                        (new TaskErrorTransfer())->setMessage(
+                            'It\' impossible to update this task.',
+                        )
+                    );
+            }
+
+            return (new TaskResponseTransfer())->setTaskTransfer($taskTransfer)
+                ->setIsSuccessful(true);
+        } catch (\Exception $exception) {
+            // @TODO log exception
+            return (new TaskResponseTransfer())->setIsSuccessful(false)
+                ->addError(
+                    (new TaskErrorTransfer())->setMessage(
+                        'An error occurred while updating the task'
+                    )
+                );
+        }
     }
 }

@@ -24,21 +24,44 @@ use Pyz\Zed\Tasks\Persistence\TasksEntityManagerInterface;
  * @method void comment($description)
  * @method void pause($vars = [])
  *
+ * @method \Pyz\Zed\Tasks\Business\TasksFacadeInterface getFacade()
+ *
  * @SuppressWarnings(PHPMD)
 */
 class TasksBusinessTester extends \Codeception\Actor
 {
     use _generated\TasksBusinessTesterActions;
 
+    /**
+     * @param string[] $seedData
+     * @return TaskTransfer
+     */
     public function getTaskTransfer(array $seedData = []): TaskTransfer
     {
         return (new TaskBuilder($seedData))->build();
     }
 
-    public function mockEntityManagerSaveTaskWithException(): void
+    /**
+     * @throws Exception
+     */
+    public function mockEntityManagerCreateTaskWithException(): void
     {
         $taxAppEntityManagerMock = Stub::makeEmpty(TasksEntityManagerInterface::class, [
-            'saveTask' => function (): void {
+            'createTask' => function (): void {
+                throw new Exception('something went wrong');
+            },
+        ]);
+
+        $this->mockFactoryMethod('getEntityManager', $taxAppEntityManagerMock);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function mockEntityManagerUpdateTaskWithException(): void
+    {
+        $taxAppEntityManagerMock = Stub::makeEmpty(TasksEntityManagerInterface::class, [
+            'updateTask' => function (): void {
                 throw new Exception('something went wrong');
             },
         ]);

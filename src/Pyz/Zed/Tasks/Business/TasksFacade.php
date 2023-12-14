@@ -19,4 +19,9 @@ class TasksFacade extends AbstractFacade implements TasksFacadeInterface
     {
         return $this->getFactory()->createTaskWriter()->createTask($taskTransfer);
     }
+
+    public function updateTask(TaskTransfer $taskTransfer): TaskResponseTransfer
+    {
+        return $this->getFactory()->createTaskWriter()->updateTask($taskTransfer);
+    }
 }

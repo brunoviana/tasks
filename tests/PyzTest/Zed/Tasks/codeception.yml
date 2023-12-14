@@ -40,3 +40,4 @@ suites:
 #                - \SprykerTest\Zed\MerchantProfile\Helper\MerchantProfileHelper
 #                - \SprykerTest\Shared\Store\Helper\StoreDependencyHelper
                 - \PyzTest\Zed\Tasks\Helper\TasksBusinessAssertionHelper
+                - \PyzTest\Zed\Tasks\Helper\TaskDataHelper

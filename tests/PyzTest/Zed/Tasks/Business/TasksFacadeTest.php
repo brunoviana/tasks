@@ -3,6 +3,7 @@
 namespace PyzTest\Zed\Tasks\Business;
 
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\TaskTransfer;
 use PyzTest\Zed\Tasks\TasksBusinessTester;
 use Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException;
 
@@ -51,18 +52,72 @@ class TasksFacadeTest extends Unit
         $this->tester->getFacade()->createTask($taskTransfer);
     }
 
-    public function testCreateTaskMustValidateIfStatusIsValid(): void
+    public function testCreateTaskMustHandleUnexpectedExceptionSuccessfully(): void
     {
         // Arrange
         $taskTransfer = $this->tester->getTaskTransfer();
 
-        $this->tester->mockEntityManagerSaveTaskWithException();
+        $this->tester->mockEntityManagerCreateTaskWithException();
 
         // Act
         $createTaskResponse = $this->tester->getFacade()->createTask($taskTransfer);
 
         // Assert
-        $this->tester->assertCreateTaskHandledExceptionSuccessfully($createTaskResponse);
+        $this->tester->assertTaskResponseReturnedError(
+            $createTaskResponse,
+            'An error occurred while creating the task',
+        );
+    }
+
+    public function testUpdateTaskMustChangeTaskAttributesSuccessfully(): void
+    {
+        // Arrange
+        $taskTransfer = $this->tester->haveTask();
+        $taskTransfer->setTitle('changed-title');
+        $taskTransfer->setDescription('changed-title');
+        $taskTransfer->setStatus('in_progress');
+        $taskTransfer->setDueAt(date('Y-m-d H:i:s'));
+
+        // Act
+        $updateTaskResponse = $this->tester->getFacade()->updateTask($taskTransfer);
+
+        // Assert
+        $this->tester->assertUpdateTaskChangeTaskAttributesSuccessfully($updateTaskResponse, $taskTransfer);
+    }
+
+    public function testUpdateTaskMustHandleUnexpectedExceptionSuccessfully(): void
+    {
+        // Arrange
+        $taskTransfer = $this->tester->getTaskTransfer();
+
+        $this->tester->mockEntityManagerUpdateTaskWithException();
+
+        // Act
+        $createTaskResponse = $this->tester->getFacade()->updateTask($taskTransfer);
+
+        // Assert
+        $this->tester->assertTaskResponseReturnedError(
+            $createTaskResponse,
+            'An error occurred while updating the task',
+        );
+    }
+
+    public function testUpdateTaskMustHandleNotFoundTasksSuccessfully(): void
+    {
+        // Arrange
+        $taskTransfer = $this->tester->haveTask();
+        $taskTransfer->setIdTask(
+            $taskTransfer->getIdTask() + 1
+        );
+
+        // Act
+        $updateTaskResponse = $this->tester->getFacade()->updateTask($taskTransfer);
+
+        // Assert
+        $this->tester->assertTaskResponseReturnedError(
+            $updateTaskResponse,
+            'It\' impossible to update this task.',
+        );
     }
 
 }

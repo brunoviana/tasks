@@ -1,4 +1,4 @@
-<?php  //[STAMP] ba2b4c128f7ae7729ccd59d2c5c8ca40
+<?php  //[STAMP] a57e38b97319586892f6ce3275d1c2ea
 // phpcs:ignoreFile
 namespace PyzTest\Zed\Tasks\_generated;
 
@@ -290,9 +290,32 @@ trait TasksBusinessTesterActions
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      *
-     * @see \PyzTest\Zed\Tasks\Helper\TasksBusinessAssertionHelper::assertCreateTaskHandledExceptionSuccessfully()
+     * @see \PyzTest\Zed\Tasks\Helper\TasksBusinessAssertionHelper::assertTaskResponseReturnedError()
      */
-    public function assertCreateTaskHandledExceptionSuccessfully(\Generated\Shared\Transfer\TaskResponseTransfer $taskResponseTransfer): void {
-        $this->getScenario()->runStep(new \Codeception\Step\Action('assertCreateTaskHandledExceptionSuccessfully', func_get_args()));
+    public function assertTaskResponseReturnedError(\Generated\Shared\Transfer\TaskResponseTransfer $taskResponseTransfer, string $expectedErrorMessage): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Action('assertTaskResponseReturnedError', func_get_args()));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \PyzTest\Zed\Tasks\Helper\TasksBusinessAssertionHelper::assertUpdateTaskChangeTaskAttributesSuccessfully()
+     */
+    public function assertUpdateTaskChangeTaskAttributesSuccessfully(\Generated\Shared\Transfer\TaskResponseTransfer $taskResponseTransfer, \Generated\Shared\Transfer\TaskTransfer $originalTaskTransfer): void {
+        $this->getScenario()->runStep(new \Codeception\Step\Action('assertUpdateTaskChangeTaskAttributesSuccessfully', func_get_args()));
+    }
+
+ 
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @param string[] $override
+     * @return TaskTransfer
+     * @see \PyzTest\Zed\Tasks\Helper\TaskDataHelper::haveTask()
+     */
+    public function haveTask(array $override = []): \Generated\Shared\Transfer\TaskTransfer {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('haveTask', func_get_args()));
     }
 }

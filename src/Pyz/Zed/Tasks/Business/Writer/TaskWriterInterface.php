@@ -1,0 +1,11 @@
+<?php
+
+namespace Pyz\Zed\Tasks\Business\Writer;
+
+use Generated\Shared\Transfer\TaskResponseTransfer;
+use Generated\Shared\Transfer\TaskTransfer;
+
+interface TaskWriterInterface
+{
+    public function createTask(TaskTransfer $taskTransfer): TaskResponseTransfer;
+}

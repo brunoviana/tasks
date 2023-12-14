@@ -1,0 +1,38 @@
+{
+    "name": "brunoviana/tasks",
+    "type": "library",
+    "description": "Tasks module",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1",
+        "spryker/kernel": "^3.30.0"
+    },
+    "require-dev": {
+        "spryker/code-sniffer": "*",
+        "spryker/testify": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pyz\\": "src/Pyz/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PyzTest\\": "tests/PyzTest/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/ tests/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml src/ tests/"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -12,13 +12,38 @@ use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
  */
 class TasksEntityManager extends AbstractEntityManager implements TasksEntityManagerInterface
 {
-    public function saveTask(TaskTransfer $taskTransfer): TaskTransfer
+    public function createTask(TaskTransfer $taskTransfer): TaskTransfer
     {
         $taskMapper = $this->getFactory()->createTaskMapper();
 
         $taskEntity = $taskMapper->mapTaskTransferToTaskEntity(
             $taskTransfer,
             new PyzTask()
+        );
+
+        $taskEntity->save();
+
+        return $taskMapper->mapTaskEntityToTaskTransfer($taskEntity, new TaskTransfer());
+    }
+
+    public function updateTask(TaskTransfer $taskTransfer): ?TaskTransfer
+    {
+        $taskTransfer->requireIdTask();
+
+        $taskEntity = $this->getFactory()
+            ->createTaskQuery()
+            ->filterByIdTask($taskTransfer->getIdTask())
+            ->findOne();
+
+        if (!$taskEntity) {
+            return null;
+        }
+
+        $taskMapper = $this->getFactory()->createTaskMapper();
+
+        $taskEntity = $taskMapper->mapTaskTransferToTaskEntity(
+            $taskTransfer,
+            $taskEntity
         );
 
         $taskEntity->save();

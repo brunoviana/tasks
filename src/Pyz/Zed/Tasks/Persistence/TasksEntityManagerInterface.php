@@ -7,5 +7,7 @@ use Generated\Shared\Transfer\TaskTransfer;
 
 interface TasksEntityManagerInterface
 {
-    public function saveTask(TaskTransfer $taskTransfer): TaskTransfer;
+    public function createTask(TaskTransfer $taskTransfer): TaskTransfer;
+
+    public function updateTask(TaskTransfer $taskTransfer): ?TaskTransfer;
 }
